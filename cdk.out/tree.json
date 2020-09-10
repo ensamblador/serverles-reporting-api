@@ -1,0 +1,808 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree"
+      },
+      "ondemand-reports": {
+        "id": "ondemand-reports",
+        "path": "ondemand-reports",
+        "children": {
+          "PUBLISH_": {
+            "id": "PUBLISH_",
+            "path": "ondemand-reports/PUBLISH_",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "ondemand-reports/PUBLISH_/ServiceRole",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ondemand-reports/PUBLISH_/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "ondemand-reports/PUBLISH_/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "ondemand-reports/PUBLISH_/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "sqs:SendMessage",
+                                    "sqs:GetQueueAttributes",
+                                    "sqs:GetQueueUrl"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::GetAtt": [
+                                      "reportqueuebasequeueD6F1319D",
+                                      "Arn"
+                                    ]
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "PUBLISHServiceRoleDefaultPolicy64CBAE80",
+                            "roles": [
+                              {
+                                "Ref": "PUBLISHServiceRole779730EF"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "ondemand-reports/PUBLISH_/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "ondemand-reports/PUBLISH_/Code/Stage"
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "ondemand-reports/PUBLISH_/Code/AssetBucket"
+                  }
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "ondemand-reports/PUBLISH_/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Ref": "AssetParameters1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0S3Bucket5EA66AEF"
+                      },
+                      "s3Key": {
+                        "Fn::Join": [
+                          "",
+                          [
+                            {
+                              "Fn::Select": [
+                                0,
+                                {
+                                  "Fn::Split": [
+                                    "||",
+                                    {
+                                      "Ref": "AssetParameters1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0S3VersionKeyD171B821"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "Fn::Select": [
+                                1,
+                                {
+                                  "Fn::Split": [
+                                    "||",
+                                    {
+                                      "Ref": "AssetParameters1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0S3VersionKeyD171B821"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        ]
+                      }
+                    },
+                    "handler": "lambda-handler.main",
+                    "role": {
+                      "Fn::GetAtt": [
+                        "PUBLISHServiceRole779730EF",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "python3.6",
+                    "description": "Agrega un mensaje en cola",
+                    "environment": {
+                      "variables": {
+                        "ENV_SQS_QUEUE": {
+                          "Ref": "reportqueuebasequeueD6F1319D"
+                        },
+                        "ENV_REGION": "us-west-1"
+                      }
+                    },
+                    "memorySize": 3008,
+                    "timeout": 15
+                  }
+                }
+              }
+            }
+          },
+          "AssetParameters": {
+            "id": "AssetParameters",
+            "path": "ondemand-reports/AssetParameters",
+            "children": {
+              "1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0": {
+                "id": "1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0",
+                "path": "ondemand-reports/AssetParameters/1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0",
+                "children": {
+                  "S3Bucket": {
+                    "id": "S3Bucket",
+                    "path": "ondemand-reports/AssetParameters/1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0/S3Bucket"
+                  },
+                  "S3VersionKey": {
+                    "id": "S3VersionKey",
+                    "path": "ondemand-reports/AssetParameters/1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0/S3VersionKey"
+                  },
+                  "ArtifactHash": {
+                    "id": "ArtifactHash",
+                    "path": "ondemand-reports/AssetParameters/1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0/ArtifactHash"
+                  }
+                }
+              }
+            }
+          },
+          "SUBSCRIBE_": {
+            "id": "SUBSCRIBE_",
+            "path": "ondemand-reports/SUBSCRIBE_",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "ondemand-reports/SUBSCRIBE_/ServiceRole",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ondemand-reports/SUBSCRIBE_/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "ondemand-reports/SUBSCRIBE_/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "ondemand-reports/SUBSCRIBE_/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "sqs:ReceiveMessage",
+                                    "sqs:ChangeMessageVisibility",
+                                    "sqs:GetQueueUrl",
+                                    "sqs:DeleteMessage",
+                                    "sqs:GetQueueAttributes"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::GetAtt": [
+                                      "reportqueuebasequeueD6F1319D",
+                                      "Arn"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "Action": [
+                                    "s3:GetObject*",
+                                    "s3:GetBucket*",
+                                    "s3:List*"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    "arn:aws:s3:::athena-queries-us-west-1",
+                                    "arn:aws:s3:::athena-queries-us-west-1/*"
+                                  ]
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "SUBSCRIBEServiceRoleDefaultPolicy1AEFB455",
+                            "roles": [
+                              {
+                                "Ref": "SUBSCRIBEServiceRole23974271"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "ondemand-reports/SUBSCRIBE_/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "ondemand-reports/SUBSCRIBE_/Code/Stage"
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "ondemand-reports/SUBSCRIBE_/Code/AssetBucket"
+                  }
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "ondemand-reports/SUBSCRIBE_/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Ref": "AssetParameters1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0S3Bucket5EA66AEF"
+                      },
+                      "s3Key": {
+                        "Fn::Join": [
+                          "",
+                          [
+                            {
+                              "Fn::Select": [
+                                0,
+                                {
+                                  "Fn::Split": [
+                                    "||",
+                                    {
+                                      "Ref": "AssetParameters1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0S3VersionKeyD171B821"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "Fn::Select": [
+                                1,
+                                {
+                                  "Fn::Split": [
+                                    "||",
+                                    {
+                                      "Ref": "AssetParameters1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0S3VersionKeyD171B821"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        ]
+                      }
+                    },
+                    "handler": "lambda-handler.main",
+                    "role": {
+                      "Fn::GetAtt": [
+                        "SUBSCRIBEServiceRole23974271",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "python3.6",
+                    "description": "Procesa un mensaje de la cola",
+                    "environment": {
+                      "variables": {
+                        "ENV_REGION": "us-west-1"
+                      }
+                    },
+                    "memorySize": 3008,
+                    "timeout": 15
+                  }
+                }
+              },
+              "SqsEventSource:ondemandreportsreportqueuebasequeueB04EFF31": {
+                "id": "SqsEventSource:ondemandreportsreportqueuebasequeueB04EFF31",
+                "path": "ondemand-reports/SUBSCRIBE_/SqsEventSource:ondemandreportsreportqueuebasequeueB04EFF31",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ondemand-reports/SUBSCRIBE_/SqsEventSource:ondemandreportsreportqueuebasequeueB04EFF31/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::EventSourceMapping",
+                      "aws:cdk:cloudformation:props": {
+                        "eventSourceArn": {
+                          "Fn::GetAtt": [
+                            "reportqueuebasequeueD6F1319D",
+                            "Arn"
+                          ]
+                        },
+                        "functionName": {
+                          "Ref": "SUBSCRIBE76CD7C9E"
+                        },
+                        "batchSize": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "report_queue": {
+            "id": "report_queue",
+            "path": "ondemand-reports/report_queue",
+            "children": {
+              "queue_fail": {
+                "id": "queue_fail",
+                "path": "ondemand-reports/report_queue/queue_fail",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ondemand-reports/report_queue/queue_fail/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::SQS::Queue",
+                      "aws:cdk:cloudformation:props": {
+                        "visibilityTimeout": 15
+                      }
+                    }
+                  }
+                }
+              },
+              "base_queue": {
+                "id": "base_queue",
+                "path": "ondemand-reports/report_queue/base_queue",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ondemand-reports/report_queue/base_queue/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::SQS::Queue",
+                      "aws:cdk:cloudformation:props": {
+                        "redrivePolicy": {
+                          "deadLetterTargetArn": {
+                            "Fn::GetAtt": [
+                              "reportqueuequeuefailDF7C47E6",
+                              "Arn"
+                            ]
+                          },
+                          "maxReceiveCount": 3
+                        },
+                        "visibilityTimeout": 15
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "API": {
+            "id": "API",
+            "path": "ondemand-reports/API",
+            "children": {
+              "ApiGatewayWithCors": {
+                "id": "ApiGatewayWithCors",
+                "path": "ondemand-reports/API/ApiGatewayWithCors",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ondemand-reports/API/ApiGatewayWithCors/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGateway::RestApi",
+                      "aws:cdk:cloudformation:props": {
+                        "name": "report-api"
+                      }
+                    }
+                  },
+                  "CloudWatchRole": {
+                    "id": "CloudWatchRole",
+                    "path": "ondemand-reports/API/ApiGatewayWithCors/CloudWatchRole",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "ondemand-reports/API/ApiGatewayWithCors/CloudWatchRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "apigateway.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "Account": {
+                    "id": "Account",
+                    "path": "ondemand-reports/API/ApiGatewayWithCors/Account",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGateway::Account",
+                      "aws:cdk:cloudformation:props": {
+                        "cloudWatchRoleArn": {
+                          "Fn::GetAtt": [
+                            "APIApiGatewayWithCorsCloudWatchRoleBF3514FD",
+                            "Arn"
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "Deployment": {
+                    "id": "Deployment",
+                    "path": "ondemand-reports/API/ApiGatewayWithCors/Deployment",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "ondemand-reports/API/ApiGatewayWithCors/Deployment/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGateway::Deployment",
+                          "aws:cdk:cloudformation:props": {
+                            "restApiId": {
+                              "Ref": "APIApiGatewayWithCorsF96D4C20"
+                            },
+                            "description": "Automatically created by the RestApi construct"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "DeploymentStage.prod": {
+                    "id": "DeploymentStage.prod",
+                    "path": "ondemand-reports/API/ApiGatewayWithCors/DeploymentStage.prod",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "ondemand-reports/API/ApiGatewayWithCors/DeploymentStage.prod/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGateway::Stage",
+                          "aws:cdk:cloudformation:props": {
+                            "restApiId": {
+                              "Ref": "APIApiGatewayWithCorsF96D4C20"
+                            },
+                            "deploymentId": {
+                              "Ref": "APIApiGatewayWithCorsDeployment86BD46120d96b8482fd8573b25aaf7facce4c76f"
+                            },
+                            "stageName": "prod"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "Endpoint": {
+                    "id": "Endpoint",
+                    "path": "ondemand-reports/API/ApiGatewayWithCors/Endpoint"
+                  },
+                  "Default": {
+                    "id": "Default",
+                    "path": "ondemand-reports/API/ApiGatewayWithCors/Default",
+                    "children": {
+                      "report": {
+                        "id": "report",
+                        "path": "ondemand-reports/API/ApiGatewayWithCors/Default/report",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "ondemand-reports/API/ApiGatewayWithCors/Default/report/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApiGateway::Resource",
+                              "aws:cdk:cloudformation:props": {
+                                "parentId": {
+                                  "Fn::GetAtt": [
+                                    "APIApiGatewayWithCorsF96D4C20",
+                                    "RootResourceId"
+                                  ]
+                                },
+                                "pathPart": "report",
+                                "restApiId": {
+                                  "Ref": "APIApiGatewayWithCorsF96D4C20"
+                                }
+                              }
+                            }
+                          },
+                          "POST": {
+                            "id": "POST",
+                            "path": "ondemand-reports/API/ApiGatewayWithCors/Default/report/POST",
+                            "children": {
+                              "ApiPermission.ondemandreportsAPIApiGatewayWithCorsED26507B.POST..report": {
+                                "id": "ApiPermission.ondemandreportsAPIApiGatewayWithCorsED26507B.POST..report",
+                                "path": "ondemand-reports/API/ApiGatewayWithCors/Default/report/POST/ApiPermission.ondemandreportsAPIApiGatewayWithCorsED26507B.POST..report",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                                  "aws:cdk:cloudformation:props": {
+                                    "action": "lambda:InvokeFunction",
+                                    "functionName": {
+                                      "Fn::GetAtt": [
+                                        "PUBLISH0E31E06E",
+                                        "Arn"
+                                      ]
+                                    },
+                                    "principal": "apigateway.amazonaws.com",
+                                    "sourceArn": {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "arn:",
+                                          {
+                                            "Ref": "AWS::Partition"
+                                          },
+                                          ":execute-api:us-west-1:",
+                                          {
+                                            "Ref": "AWS::AccountId"
+                                          },
+                                          ":",
+                                          {
+                                            "Ref": "APIApiGatewayWithCorsF96D4C20"
+                                          },
+                                          "/",
+                                          {
+                                            "Ref": "APIApiGatewayWithCorsDeploymentStageprod24FF58DF"
+                                          },
+                                          "/POST/report"
+                                        ]
+                                      ]
+                                    }
+                                  }
+                                }
+                              },
+                              "ApiPermission.Test.ondemandreportsAPIApiGatewayWithCorsED26507B.POST..report": {
+                                "id": "ApiPermission.Test.ondemandreportsAPIApiGatewayWithCorsED26507B.POST..report",
+                                "path": "ondemand-reports/API/ApiGatewayWithCors/Default/report/POST/ApiPermission.Test.ondemandreportsAPIApiGatewayWithCorsED26507B.POST..report",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                                  "aws:cdk:cloudformation:props": {
+                                    "action": "lambda:InvokeFunction",
+                                    "functionName": {
+                                      "Fn::GetAtt": [
+                                        "PUBLISH0E31E06E",
+                                        "Arn"
+                                      ]
+                                    },
+                                    "principal": "apigateway.amazonaws.com",
+                                    "sourceArn": {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "arn:",
+                                          {
+                                            "Ref": "AWS::Partition"
+                                          },
+                                          ":execute-api:us-west-1:",
+                                          {
+                                            "Ref": "AWS::AccountId"
+                                          },
+                                          ":",
+                                          {
+                                            "Ref": "APIApiGatewayWithCorsF96D4C20"
+                                          },
+                                          "/test-invoke-stage/POST/report"
+                                        ]
+                                      ]
+                                    }
+                                  }
+                                }
+                              },
+                              "Resource": {
+                                "id": "Resource",
+                                "path": "ondemand-reports/API/ApiGatewayWithCors/Default/report/POST/Resource",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                                  "aws:cdk:cloudformation:props": {
+                                    "httpMethod": "POST",
+                                    "resourceId": {
+                                      "Ref": "APIApiGatewayWithCorsreport72992B4D"
+                                    },
+                                    "restApiId": {
+                                      "Ref": "APIApiGatewayWithCorsF96D4C20"
+                                    },
+                                    "authorizationType": "NONE",
+                                    "integration": {
+                                      "type": "AWS",
+                                      "uri": {
+                                        "Fn::Join": [
+                                          "",
+                                          [
+                                            "arn:",
+                                            {
+                                              "Ref": "AWS::Partition"
+                                            },
+                                            ":apigateway:us-west-1:lambda:path/2015-03-31/functions/",
+                                            {
+                                              "Fn::GetAtt": [
+                                                "PUBLISH0E31E06E",
+                                                "Arn"
+                                              ]
+                                            },
+                                            "/invocations"
+                                          ]
+                                        ]
+                                      },
+                                      "integrationHttpMethod": "POST",
+                                      "integrationResponses": [
+                                        {
+                                          "statusCode": "200",
+                                          "responseParameters": {
+                                            "method.response.header.Access-Control-Allow-Origin": "'*'"
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    "methodResponses": [
+                                      {
+                                        "statusCode": "200",
+                                        "responseParameters": {
+                                          "method.response.header.Access-Control-Allow-Origin": true
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "OPTIONS": {
+                            "id": "OPTIONS",
+                            "path": "ondemand-reports/API/ApiGatewayWithCors/Default/report/OPTIONS",
+                            "children": {
+                              "Resource": {
+                                "id": "Resource",
+                                "path": "ondemand-reports/API/ApiGatewayWithCors/Default/report/OPTIONS/Resource",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                                  "aws:cdk:cloudformation:props": {
+                                    "httpMethod": "OPTIONS",
+                                    "resourceId": {
+                                      "Ref": "APIApiGatewayWithCorsreport72992B4D"
+                                    },
+                                    "restApiId": {
+                                      "Ref": "APIApiGatewayWithCorsF96D4C20"
+                                    },
+                                    "authorizationType": "NONE",
+                                    "integration": {
+                                      "type": "MOCK",
+                                      "requestTemplates": {
+                                        "application/json": "{\"statusCode\":200}"
+                                      },
+                                      "passthroughBehavior": "WHEN_NO_MATCH",
+                                      "integrationResponses": [
+                                        {
+                                          "statusCode": "200",
+                                          "responseParameters": {
+                                            "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                                            "method.response.header.Access-Control-Allow-Origin": "'*'",
+                                            "method.response.header.Access-Control-Allow-Methods": "'GET,OPTIONS'"
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    "methodResponses": [
+                                      {
+                                        "statusCode": "200",
+                                        "responseParameters": {
+                                          "method.response.header.Access-Control-Allow-Headers": true,
+                                          "method.response.header.Access-Control-Allow-Methods": true,
+                                          "method.response.header.Access-Control-Allow-Origin": true
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "ATHENA_BUCKET_": {
+            "id": "ATHENA_BUCKET_",
+            "path": "ondemand-reports/ATHENA_BUCKET_"
+          }
+        }
+      }
+    }
+  }
+}
