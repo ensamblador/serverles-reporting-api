@@ -1,5 +1,13 @@
 {
   "Resources": {
+    "ATHENABUCKETE7BA2094": {
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "ondemand-reports/ATHENA_BUCKET_/Resource"
+      }
+    },
     "PUBLISHServiceRole779730EF": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -72,7 +80,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": {
-            "Ref": "AssetParameters1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0S3Bucket5EA66AEF"
+            "Ref": "AssetParameters586f60ef4fd3477df87d2267b3ac7abb2d4a4015cdda9fe5187d589b6908d159S3Bucket9FE0CBA5"
           },
           "S3Key": {
             "Fn::Join": [
@@ -85,7 +93,7 @@
                       "Fn::Split": [
                         "||",
                         {
-                          "Ref": "AssetParameters1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0S3VersionKeyD171B821"
+                          "Ref": "AssetParameters586f60ef4fd3477df87d2267b3ac7abb2d4a4015cdda9fe5187d589b6908d159S3VersionKey800DA600"
                         }
                       ]
                     }
@@ -98,7 +106,7 @@
                       "Fn::Split": [
                         "||",
                         {
-                          "Ref": "AssetParameters1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0S3VersionKeyD171B821"
+                          "Ref": "AssetParameters586f60ef4fd3477df87d2267b3ac7abb2d4a4015cdda9fe5187d589b6908d159S3VersionKey800DA600"
                         }
                       ]
                     }
@@ -108,7 +116,7 @@
             ]
           }
         },
-        "Handler": "lambda-handler.main",
+        "Handler": "lambda_handler.main",
         "Role": {
           "Fn::GetAtt": [
             "PUBLISHServiceRole779730EF",
@@ -125,8 +133,8 @@
             "ENV_REGION": "us-west-1"
           }
         },
-        "MemorySize": 3008,
-        "Timeout": 15
+        "MemorySize": 128,
+        "Timeout": 20
       },
       "DependsOn": [
         "PUBLISHServiceRoleDefaultPolicy64CBAE80",
@@ -134,7 +142,7 @@
       ],
       "Metadata": {
         "aws:cdk:path": "ondemand-reports/PUBLISH_/Resource",
-        "aws:asset:path": "asset.1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0",
+        "aws:asset:path": "asset.586f60ef4fd3477df87d2267b3ac7abb2d4a4015cdda9fe5187d589b6908d159",
         "aws:asset:property": "Code"
       }
     },
@@ -195,15 +203,93 @@
             },
             {
               "Action": [
-                "s3:GetObject*",
-                "s3:GetBucket*",
-                "s3:List*"
+                "sqs:SendMessage",
+                "sqs:GetQueueAttributes",
+                "sqs:GetQueueUrl"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "pollqueryqueuebasequeue11ED0798",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan"
               ],
               "Effect": "Allow",
               "Resource": [
-                "arn:aws:s3:::athena-queries-us-west-1",
-                "arn:aws:s3:::athena-queries-us-west-1/*"
+                {
+                  "Fn::GetAtt": [
+                    "REPORTEDEFINICIONC6FAC89F",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Ref": "AWS::NoValue"
+                }
               ]
+            },
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject*",
+                "s3:Abort*"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "ATHENABUCKETE7BA2094",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "ATHENABUCKETE7BA2094",
+                          "Arn"
+                        ]
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": [
+                "athena:StartQueryExecution",
+                "athena:GetQueryExecution"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "glue:GetTable",
+                "glue:GetPartitions"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "s3:*",
+              "Effect": "Allow",
+              "Resource": "*"
             }
           ],
           "Version": "2012-10-17"
@@ -224,7 +310,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": {
-            "Ref": "AssetParameters1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0S3Bucket5EA66AEF"
+            "Ref": "AssetParameters02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904S3BucketCA07E159"
           },
           "S3Key": {
             "Fn::Join": [
@@ -237,7 +323,7 @@
                       "Fn::Split": [
                         "||",
                         {
-                          "Ref": "AssetParameters1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0S3VersionKeyD171B821"
+                          "Ref": "AssetParameters02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904S3VersionKeyF49C052C"
                         }
                       ]
                     }
@@ -250,7 +336,7 @@
                       "Fn::Split": [
                         "||",
                         {
-                          "Ref": "AssetParameters1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0S3VersionKeyD171B821"
+                          "Ref": "AssetParameters02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904S3VersionKeyF49C052C"
                         }
                       ]
                     }
@@ -260,7 +346,7 @@
             ]
           }
         },
-        "Handler": "lambda-handler.main",
+        "Handler": "lambda_handler.main",
         "Role": {
           "Fn::GetAtt": [
             "SUBSCRIBEServiceRole23974271",
@@ -271,11 +357,21 @@
         "Description": "Procesa un mensaje de la cola",
         "Environment": {
           "Variables": {
-            "ENV_REGION": "us-west-1"
+            "ENV_REGION": "us-west-1",
+            "ENV_ATHENA_RESULTS_BUCKET": {
+              "Ref": "ATHENABUCKETE7BA2094"
+            },
+            "ENV_ATHENA_RESULTS_PREFIX": "from_lambda/",
+            "QUERY_DEFINITIONS_TABLE": {
+              "Ref": "REPORTEDEFINICIONC6FAC89F"
+            },
+            "ENV_SQS_QUEUE": {
+              "Ref": "pollqueryqueuebasequeue11ED0798"
+            }
           }
         },
-        "MemorySize": 3008,
-        "Timeout": 15
+        "MemorySize": 128,
+        "Timeout": 20
       },
       "DependsOn": [
         "SUBSCRIBEServiceRoleDefaultPolicy1AEFB455",
@@ -283,7 +379,7 @@
       ],
       "Metadata": {
         "aws:cdk:path": "ondemand-reports/SUBSCRIBE_/Resource",
-        "aws:asset:path": "asset.1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0",
+        "aws:asset:path": "asset.02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904",
         "aws:asset:property": "Code"
       }
     },
@@ -305,10 +401,208 @@
         "aws:cdk:path": "ondemand-reports/SUBSCRIBE_/SqsEventSource:ondemandreportsreportqueuebasequeueB04EFF31/Resource"
       }
     },
+    "POLLQUERYServiceRoleB023D28C": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ondemand-reports/POLL_QUERY_/ServiceRole/Resource"
+      }
+    },
+    "POLLQUERYServiceRoleDefaultPolicy2D7D5E98": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "sqs:ReceiveMessage",
+                "sqs:ChangeMessageVisibility",
+                "sqs:GetQueueUrl",
+                "sqs:DeleteMessage",
+                "sqs:GetQueueAttributes"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "pollqueryqueuebasequeue11ED0798",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "ATHENABUCKETE7BA2094",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "ATHENABUCKETE7BA2094",
+                          "Arn"
+                        ]
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": "athena:GetQueryExecution",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "ses:SendEmail",
+                "ses:SendRawEmail"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "POLLQUERYServiceRoleDefaultPolicy2D7D5E98",
+        "Roles": [
+          {
+            "Ref": "POLLQUERYServiceRoleB023D28C"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ondemand-reports/POLL_QUERY_/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "POLLQUERYF60AE48F": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "AssetParameters86cb45a55f60597f2948d31e24508aa44f965b0fe225a9052d7e7fffd1888bd7S3BucketD288650F"
+          },
+          "S3Key": {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    0,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "AssetParameters86cb45a55f60597f2948d31e24508aa44f965b0fe225a9052d7e7fffd1888bd7S3VersionKey56477870"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "AssetParameters86cb45a55f60597f2948d31e24508aa44f965b0fe225a9052d7e7fffd1888bd7S3VersionKey56477870"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            ]
+          }
+        },
+        "Handler": "lambda_handler.main",
+        "Role": {
+          "Fn::GetAtt": [
+            "POLLQUERYServiceRoleB023D28C",
+            "Arn"
+          ]
+        },
+        "Runtime": "python3.6",
+        "Description": "Monitorea la query mediante una cola",
+        "Environment": {
+          "Variables": {
+            "ENV_REGION": "us-west-1"
+          }
+        },
+        "MemorySize": 128,
+        "Timeout": 20
+      },
+      "DependsOn": [
+        "POLLQUERYServiceRoleDefaultPolicy2D7D5E98",
+        "POLLQUERYServiceRoleB023D28C"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "ondemand-reports/POLL_QUERY_/Resource",
+        "aws:asset:path": "asset.86cb45a55f60597f2948d31e24508aa44f965b0fe225a9052d7e7fffd1888bd7",
+        "aws:asset:property": "Code"
+      }
+    },
+    "POLLQUERYSqsEventSourceondemandreportspollqueryqueuebasequeueEA1C756B1E209FB2": {
+      "Type": "AWS::Lambda::EventSourceMapping",
+      "Properties": {
+        "EventSourceArn": {
+          "Fn::GetAtt": [
+            "pollqueryqueuebasequeue11ED0798",
+            "Arn"
+          ]
+        },
+        "FunctionName": {
+          "Ref": "POLLQUERYF60AE48F"
+        },
+        "BatchSize": 1
+      },
+      "Metadata": {
+        "aws:cdk:path": "ondemand-reports/POLL_QUERY_/SqsEventSource:ondemandreportspollqueryqueuebasequeueEA1C756B/Resource"
+      }
+    },
     "reportqueuequeuefailDF7C47E6": {
       "Type": "AWS::SQS::Queue",
       "Properties": {
-        "VisibilityTimeout": 15
+        "VisibilityTimeout": 20
       },
       "Metadata": {
         "aws:cdk:path": "ondemand-reports/report_queue/queue_fail/Resource"
@@ -324,12 +618,73 @@
               "Arn"
             ]
           },
-          "maxReceiveCount": 3
+          "maxReceiveCount": 100
         },
-        "VisibilityTimeout": 15
+        "VisibilityTimeout": 20
       },
       "Metadata": {
         "aws:cdk:path": "ondemand-reports/report_queue/base_queue/Resource"
+      }
+    },
+    "pollqueryqueuequeuefail602EA7F3": {
+      "Type": "AWS::SQS::Queue",
+      "Properties": {
+        "VisibilityTimeout": 20
+      },
+      "Metadata": {
+        "aws:cdk:path": "ondemand-reports/poll_query_queue/queue_fail/Resource"
+      }
+    },
+    "pollqueryqueuebasequeue11ED0798": {
+      "Type": "AWS::SQS::Queue",
+      "Properties": {
+        "RedrivePolicy": {
+          "deadLetterTargetArn": {
+            "Fn::GetAtt": [
+              "pollqueryqueuequeuefail602EA7F3",
+              "Arn"
+            ]
+          },
+          "maxReceiveCount": 100
+        },
+        "VisibilityTimeout": 20
+      },
+      "Metadata": {
+        "aws:cdk:path": "ondemand-reports/poll_query_queue/base_queue/Resource"
+      }
+    },
+    "REPORTEDEFINICIONC6FAC89F": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "KeySchema": [
+          {
+            "AttributeName": "customer_id",
+            "KeyType": "HASH"
+          },
+          {
+            "AttributeName": "report_id",
+            "KeyType": "RANGE"
+          }
+        ],
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "customer_id",
+            "AttributeType": "S"
+          },
+          {
+            "AttributeName": "report_id",
+            "AttributeType": "S"
+          }
+        ],
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
+        }
+      },
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "ondemand-reports/REPORTE_DEFINICION_/Resource"
       }
     },
     "APIApiGatewayWithCorsF96D4C20": {
@@ -618,17 +973,41 @@
     }
   },
   "Parameters": {
-    "AssetParameters1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0S3Bucket5EA66AEF": {
+    "AssetParameters586f60ef4fd3477df87d2267b3ac7abb2d4a4015cdda9fe5187d589b6908d159S3Bucket9FE0CBA5": {
       "Type": "String",
-      "Description": "S3 bucket for asset \"1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0\""
+      "Description": "S3 bucket for asset \"586f60ef4fd3477df87d2267b3ac7abb2d4a4015cdda9fe5187d589b6908d159\""
     },
-    "AssetParameters1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0S3VersionKeyD171B821": {
+    "AssetParameters586f60ef4fd3477df87d2267b3ac7abb2d4a4015cdda9fe5187d589b6908d159S3VersionKey800DA600": {
       "Type": "String",
-      "Description": "S3 key for asset version \"1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0\""
+      "Description": "S3 key for asset version \"586f60ef4fd3477df87d2267b3ac7abb2d4a4015cdda9fe5187d589b6908d159\""
     },
-    "AssetParameters1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0ArtifactHash4A934180": {
+    "AssetParameters586f60ef4fd3477df87d2267b3ac7abb2d4a4015cdda9fe5187d589b6908d159ArtifactHash38E1A4FC": {
       "Type": "String",
-      "Description": "Artifact hash for asset \"1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0\""
+      "Description": "Artifact hash for asset \"586f60ef4fd3477df87d2267b3ac7abb2d4a4015cdda9fe5187d589b6908d159\""
+    },
+    "AssetParameters02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904S3BucketCA07E159": {
+      "Type": "String",
+      "Description": "S3 bucket for asset \"02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904\""
+    },
+    "AssetParameters02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904S3VersionKeyF49C052C": {
+      "Type": "String",
+      "Description": "S3 key for asset version \"02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904\""
+    },
+    "AssetParameters02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904ArtifactHash9C39C14C": {
+      "Type": "String",
+      "Description": "Artifact hash for asset \"02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904\""
+    },
+    "AssetParameters86cb45a55f60597f2948d31e24508aa44f965b0fe225a9052d7e7fffd1888bd7S3BucketD288650F": {
+      "Type": "String",
+      "Description": "S3 bucket for asset \"86cb45a55f60597f2948d31e24508aa44f965b0fe225a9052d7e7fffd1888bd7\""
+    },
+    "AssetParameters86cb45a55f60597f2948d31e24508aa44f965b0fe225a9052d7e7fffd1888bd7S3VersionKey56477870": {
+      "Type": "String",
+      "Description": "S3 key for asset version \"86cb45a55f60597f2948d31e24508aa44f965b0fe225a9052d7e7fffd1888bd7\""
+    },
+    "AssetParameters86cb45a55f60597f2948d31e24508aa44f965b0fe225a9052d7e7fffd1888bd7ArtifactHash2E631E3C": {
+      "Type": "String",
+      "Description": "Artifact hash for asset \"86cb45a55f60597f2948d31e24508aa44f965b0fe225a9052d7e7fffd1888bd7\""
     }
   },
   "Outputs": {

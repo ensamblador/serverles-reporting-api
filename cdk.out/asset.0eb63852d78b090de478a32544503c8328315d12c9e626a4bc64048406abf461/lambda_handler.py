@@ -14,10 +14,9 @@ def main(event, context):
 
     print('request: {}'.format(json.dumps(event)))
 
-    request_time = datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    reception_time = datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S")
     print ('** enviando mensajes a la cola {}'.format(sqs_queue_url))
-    event['request_time'] = request_time
-    
+
     response = sqs.send_message(
         QueueUrl=sqs_queue_url,MessageBody=json.dumps(event))
 

@@ -14,9 +14,9 @@ class queue_lambda_pub_sub(core.Construct):
     def __init__(self, scope: core.Construct, id: str, publisher_lambda, suscriber_lambda, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
     
-        queue_fail = sqs.Queue(self, "queue_fail", visibility_timeout=core.Duration.seconds(15))
-        dlq = sqs.DeadLetterQueue( max_receive_count=3, queue=queue_fail)
-        self.queue = sqs.Queue(self, "base_queue", visibility_timeout=core.Duration.seconds(15), dead_letter_queue=dlq)
+        queue_fail = sqs.Queue(self, "queue_fail", visibility_timeout=core.Duration.seconds(20))
+        dlq = sqs.DeadLetterQueue( max_receive_count=100, queue=queue_fail)
+        self.queue = sqs.Queue(self, "base_queue", visibility_timeout=core.Duration.seconds(20), dead_letter_queue=dlq)
 
 
         #Configuramos la lambda para que reciba los mensajes de la cola

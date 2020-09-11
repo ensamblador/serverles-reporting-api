@@ -58,6 +58,7 @@ def main(event, context):
 
     query_start = athena.start_query_execution(
         QueryString=query_string,
+        ClientRequestToken='string',
         QueryExecutionContext={
             'Database': database_name
         },

@@ -12,6 +12,24 @@
         "id": "ondemand-reports",
         "path": "ondemand-reports",
         "children": {
+          "ATHENA_BUCKET_": {
+            "id": "ATHENA_BUCKET_",
+            "path": "ondemand-reports/ATHENA_BUCKET_",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "ondemand-reports/ATHENA_BUCKET_/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                  "aws:cdk:cloudformation:props": {}
+                }
+              },
+              "Notifications": {
+                "id": "Notifications",
+                "path": "ondemand-reports/ATHENA_BUCKET_/Notifications"
+              }
+            }
+          },
           "PUBLISH_": {
             "id": "PUBLISH_",
             "path": "ondemand-reports/PUBLISH_",
@@ -119,7 +137,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": {
-                        "Ref": "AssetParameters1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0S3Bucket5EA66AEF"
+                        "Ref": "AssetParameters586f60ef4fd3477df87d2267b3ac7abb2d4a4015cdda9fe5187d589b6908d159S3Bucket9FE0CBA5"
                       },
                       "s3Key": {
                         "Fn::Join": [
@@ -132,7 +150,7 @@
                                   "Fn::Split": [
                                     "||",
                                     {
-                                      "Ref": "AssetParameters1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0S3VersionKeyD171B821"
+                                      "Ref": "AssetParameters586f60ef4fd3477df87d2267b3ac7abb2d4a4015cdda9fe5187d589b6908d159S3VersionKey800DA600"
                                     }
                                   ]
                                 }
@@ -145,7 +163,7 @@
                                   "Fn::Split": [
                                     "||",
                                     {
-                                      "Ref": "AssetParameters1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0S3VersionKeyD171B821"
+                                      "Ref": "AssetParameters586f60ef4fd3477df87d2267b3ac7abb2d4a4015cdda9fe5187d589b6908d159S3VersionKey800DA600"
                                     }
                                   ]
                                 }
@@ -155,7 +173,7 @@
                         ]
                       }
                     },
-                    "handler": "lambda-handler.main",
+                    "handler": "lambda_handler.main",
                     "role": {
                       "Fn::GetAtt": [
                         "PUBLISHServiceRole779730EF",
@@ -172,8 +190,8 @@
                         "ENV_REGION": "us-west-1"
                       }
                     },
-                    "memorySize": 3008,
-                    "timeout": 15
+                    "memorySize": 128,
+                    "timeout": 20
                   }
                 }
               }
@@ -183,21 +201,57 @@
             "id": "AssetParameters",
             "path": "ondemand-reports/AssetParameters",
             "children": {
-              "1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0": {
-                "id": "1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0",
-                "path": "ondemand-reports/AssetParameters/1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0",
+              "586f60ef4fd3477df87d2267b3ac7abb2d4a4015cdda9fe5187d589b6908d159": {
+                "id": "586f60ef4fd3477df87d2267b3ac7abb2d4a4015cdda9fe5187d589b6908d159",
+                "path": "ondemand-reports/AssetParameters/586f60ef4fd3477df87d2267b3ac7abb2d4a4015cdda9fe5187d589b6908d159",
                 "children": {
                   "S3Bucket": {
                     "id": "S3Bucket",
-                    "path": "ondemand-reports/AssetParameters/1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0/S3Bucket"
+                    "path": "ondemand-reports/AssetParameters/586f60ef4fd3477df87d2267b3ac7abb2d4a4015cdda9fe5187d589b6908d159/S3Bucket"
                   },
                   "S3VersionKey": {
                     "id": "S3VersionKey",
-                    "path": "ondemand-reports/AssetParameters/1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0/S3VersionKey"
+                    "path": "ondemand-reports/AssetParameters/586f60ef4fd3477df87d2267b3ac7abb2d4a4015cdda9fe5187d589b6908d159/S3VersionKey"
                   },
                   "ArtifactHash": {
                     "id": "ArtifactHash",
-                    "path": "ondemand-reports/AssetParameters/1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0/ArtifactHash"
+                    "path": "ondemand-reports/AssetParameters/586f60ef4fd3477df87d2267b3ac7abb2d4a4015cdda9fe5187d589b6908d159/ArtifactHash"
+                  }
+                }
+              },
+              "02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904": {
+                "id": "02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904",
+                "path": "ondemand-reports/AssetParameters/02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904",
+                "children": {
+                  "S3Bucket": {
+                    "id": "S3Bucket",
+                    "path": "ondemand-reports/AssetParameters/02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904/S3Bucket"
+                  },
+                  "S3VersionKey": {
+                    "id": "S3VersionKey",
+                    "path": "ondemand-reports/AssetParameters/02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904/S3VersionKey"
+                  },
+                  "ArtifactHash": {
+                    "id": "ArtifactHash",
+                    "path": "ondemand-reports/AssetParameters/02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904/ArtifactHash"
+                  }
+                }
+              },
+              "86cb45a55f60597f2948d31e24508aa44f965b0fe225a9052d7e7fffd1888bd7": {
+                "id": "86cb45a55f60597f2948d31e24508aa44f965b0fe225a9052d7e7fffd1888bd7",
+                "path": "ondemand-reports/AssetParameters/86cb45a55f60597f2948d31e24508aa44f965b0fe225a9052d7e7fffd1888bd7",
+                "children": {
+                  "S3Bucket": {
+                    "id": "S3Bucket",
+                    "path": "ondemand-reports/AssetParameters/86cb45a55f60597f2948d31e24508aa44f965b0fe225a9052d7e7fffd1888bd7/S3Bucket"
+                  },
+                  "S3VersionKey": {
+                    "id": "S3VersionKey",
+                    "path": "ondemand-reports/AssetParameters/86cb45a55f60597f2948d31e24508aa44f965b0fe225a9052d7e7fffd1888bd7/S3VersionKey"
+                  },
+                  "ArtifactHash": {
+                    "id": "ArtifactHash",
+                    "path": "ondemand-reports/AssetParameters/86cb45a55f60597f2948d31e24508aa44f965b0fe225a9052d7e7fffd1888bd7/ArtifactHash"
                   }
                 }
               }
@@ -276,15 +330,93 @@
                                 },
                                 {
                                   "Action": [
-                                    "s3:GetObject*",
-                                    "s3:GetBucket*",
-                                    "s3:List*"
+                                    "sqs:SendMessage",
+                                    "sqs:GetQueueAttributes",
+                                    "sqs:GetQueueUrl"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::GetAtt": [
+                                      "pollqueryqueuebasequeue11ED0798",
+                                      "Arn"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "Action": [
+                                    "dynamodb:BatchGetItem",
+                                    "dynamodb:GetRecords",
+                                    "dynamodb:GetShardIterator",
+                                    "dynamodb:Query",
+                                    "dynamodb:GetItem",
+                                    "dynamodb:Scan"
                                   ],
                                   "Effect": "Allow",
                                   "Resource": [
-                                    "arn:aws:s3:::athena-queries-us-west-1",
-                                    "arn:aws:s3:::athena-queries-us-west-1/*"
+                                    {
+                                      "Fn::GetAtt": [
+                                        "REPORTEDEFINICIONC6FAC89F",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Ref": "AWS::NoValue"
+                                    }
                                   ]
+                                },
+                                {
+                                  "Action": [
+                                    "s3:GetObject*",
+                                    "s3:GetBucket*",
+                                    "s3:List*",
+                                    "s3:DeleteObject*",
+                                    "s3:PutObject*",
+                                    "s3:Abort*"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "ATHENABUCKETE7BA2094",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          {
+                                            "Fn::GetAtt": [
+                                              "ATHENABUCKETE7BA2094",
+                                              "Arn"
+                                            ]
+                                          },
+                                          "/*"
+                                        ]
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "Action": [
+                                    "athena:StartQueryExecution",
+                                    "athena:GetQueryExecution"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": "*"
+                                },
+                                {
+                                  "Action": [
+                                    "glue:GetTable",
+                                    "glue:GetPartitions"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": "*"
+                                },
+                                {
+                                  "Action": "s3:*",
+                                  "Effect": "Allow",
+                                  "Resource": "*"
                                 }
                               ],
                               "Version": "2012-10-17"
@@ -324,7 +456,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": {
-                        "Ref": "AssetParameters1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0S3Bucket5EA66AEF"
+                        "Ref": "AssetParameters02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904S3BucketCA07E159"
                       },
                       "s3Key": {
                         "Fn::Join": [
@@ -337,7 +469,7 @@
                                   "Fn::Split": [
                                     "||",
                                     {
-                                      "Ref": "AssetParameters1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0S3VersionKeyD171B821"
+                                      "Ref": "AssetParameters02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904S3VersionKeyF49C052C"
                                     }
                                   ]
                                 }
@@ -350,7 +482,7 @@
                                   "Fn::Split": [
                                     "||",
                                     {
-                                      "Ref": "AssetParameters1ebc9d3ac2033816c4abb63e4afd69d350b4aba8704cc9236b82ea520b74f4b0S3VersionKeyD171B821"
+                                      "Ref": "AssetParameters02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904S3VersionKeyF49C052C"
                                     }
                                   ]
                                 }
@@ -360,7 +492,7 @@
                         ]
                       }
                     },
-                    "handler": "lambda-handler.main",
+                    "handler": "lambda_handler.main",
                     "role": {
                       "Fn::GetAtt": [
                         "SUBSCRIBEServiceRole23974271",
@@ -371,11 +503,21 @@
                     "description": "Procesa un mensaje de la cola",
                     "environment": {
                       "variables": {
-                        "ENV_REGION": "us-west-1"
+                        "ENV_REGION": "us-west-1",
+                        "ENV_ATHENA_RESULTS_BUCKET": {
+                          "Ref": "ATHENABUCKETE7BA2094"
+                        },
+                        "ENV_ATHENA_RESULTS_PREFIX": "from_lambda/",
+                        "QUERY_DEFINITIONS_TABLE": {
+                          "Ref": "REPORTEDEFINICIONC6FAC89F"
+                        },
+                        "ENV_SQS_QUEUE": {
+                          "Ref": "pollqueryqueuebasequeue11ED0798"
+                        }
                       }
                     },
-                    "memorySize": 3008,
-                    "timeout": 15
+                    "memorySize": 128,
+                    "timeout": 20
                   }
                 }
               },
@@ -406,6 +548,240 @@
               }
             }
           },
+          "POLL_QUERY_": {
+            "id": "POLL_QUERY_",
+            "path": "ondemand-reports/POLL_QUERY_",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "ondemand-reports/POLL_QUERY_/ServiceRole",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ondemand-reports/POLL_QUERY_/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "ondemand-reports/POLL_QUERY_/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "ondemand-reports/POLL_QUERY_/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "sqs:ReceiveMessage",
+                                    "sqs:ChangeMessageVisibility",
+                                    "sqs:GetQueueUrl",
+                                    "sqs:DeleteMessage",
+                                    "sqs:GetQueueAttributes"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::GetAtt": [
+                                      "pollqueryqueuebasequeue11ED0798",
+                                      "Arn"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "Action": [
+                                    "s3:GetObject*",
+                                    "s3:GetBucket*",
+                                    "s3:List*"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "ATHENABUCKETE7BA2094",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          {
+                                            "Fn::GetAtt": [
+                                              "ATHENABUCKETE7BA2094",
+                                              "Arn"
+                                            ]
+                                          },
+                                          "/*"
+                                        ]
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "Action": "athena:GetQueryExecution",
+                                  "Effect": "Allow",
+                                  "Resource": "*"
+                                },
+                                {
+                                  "Action": [
+                                    "ses:SendEmail",
+                                    "ses:SendRawEmail"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": "*"
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "POLLQUERYServiceRoleDefaultPolicy2D7D5E98",
+                            "roles": [
+                              {
+                                "Ref": "POLLQUERYServiceRoleB023D28C"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "ondemand-reports/POLL_QUERY_/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "ondemand-reports/POLL_QUERY_/Code/Stage"
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "ondemand-reports/POLL_QUERY_/Code/AssetBucket"
+                  }
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "ondemand-reports/POLL_QUERY_/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Ref": "AssetParameters86cb45a55f60597f2948d31e24508aa44f965b0fe225a9052d7e7fffd1888bd7S3BucketD288650F"
+                      },
+                      "s3Key": {
+                        "Fn::Join": [
+                          "",
+                          [
+                            {
+                              "Fn::Select": [
+                                0,
+                                {
+                                  "Fn::Split": [
+                                    "||",
+                                    {
+                                      "Ref": "AssetParameters86cb45a55f60597f2948d31e24508aa44f965b0fe225a9052d7e7fffd1888bd7S3VersionKey56477870"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "Fn::Select": [
+                                1,
+                                {
+                                  "Fn::Split": [
+                                    "||",
+                                    {
+                                      "Ref": "AssetParameters86cb45a55f60597f2948d31e24508aa44f965b0fe225a9052d7e7fffd1888bd7S3VersionKey56477870"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        ]
+                      }
+                    },
+                    "handler": "lambda_handler.main",
+                    "role": {
+                      "Fn::GetAtt": [
+                        "POLLQUERYServiceRoleB023D28C",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "python3.6",
+                    "description": "Monitorea la query mediante una cola",
+                    "environment": {
+                      "variables": {
+                        "ENV_REGION": "us-west-1"
+                      }
+                    },
+                    "memorySize": 128,
+                    "timeout": 20
+                  }
+                }
+              },
+              "SqsEventSource:ondemandreportspollqueryqueuebasequeueEA1C756B": {
+                "id": "SqsEventSource:ondemandreportspollqueryqueuebasequeueEA1C756B",
+                "path": "ondemand-reports/POLL_QUERY_/SqsEventSource:ondemandreportspollqueryqueuebasequeueEA1C756B",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ondemand-reports/POLL_QUERY_/SqsEventSource:ondemandreportspollqueryqueuebasequeueEA1C756B/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::EventSourceMapping",
+                      "aws:cdk:cloudformation:props": {
+                        "eventSourceArn": {
+                          "Fn::GetAtt": [
+                            "pollqueryqueuebasequeue11ED0798",
+                            "Arn"
+                          ]
+                        },
+                        "functionName": {
+                          "Ref": "POLLQUERYF60AE48F"
+                        },
+                        "batchSize": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           "report_queue": {
             "id": "report_queue",
             "path": "ondemand-reports/report_queue",
@@ -420,7 +796,7 @@
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::SQS::Queue",
                       "aws:cdk:cloudformation:props": {
-                        "visibilityTimeout": 15
+                        "visibilityTimeout": 20
                       }
                     }
                   }
@@ -443,13 +819,103 @@
                               "Arn"
                             ]
                           },
-                          "maxReceiveCount": 3
+                          "maxReceiveCount": 100
                         },
-                        "visibilityTimeout": 15
+                        "visibilityTimeout": 20
                       }
                     }
                   }
                 }
+              }
+            }
+          },
+          "poll_query_queue": {
+            "id": "poll_query_queue",
+            "path": "ondemand-reports/poll_query_queue",
+            "children": {
+              "queue_fail": {
+                "id": "queue_fail",
+                "path": "ondemand-reports/poll_query_queue/queue_fail",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ondemand-reports/poll_query_queue/queue_fail/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::SQS::Queue",
+                      "aws:cdk:cloudformation:props": {
+                        "visibilityTimeout": 20
+                      }
+                    }
+                  }
+                }
+              },
+              "base_queue": {
+                "id": "base_queue",
+                "path": "ondemand-reports/poll_query_queue/base_queue",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "ondemand-reports/poll_query_queue/base_queue/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::SQS::Queue",
+                      "aws:cdk:cloudformation:props": {
+                        "redrivePolicy": {
+                          "deadLetterTargetArn": {
+                            "Fn::GetAtt": [
+                              "pollqueryqueuequeuefail602EA7F3",
+                              "Arn"
+                            ]
+                          },
+                          "maxReceiveCount": 100
+                        },
+                        "visibilityTimeout": 20
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "REPORTE_DEFINICION_": {
+            "id": "REPORTE_DEFINICION_",
+            "path": "ondemand-reports/REPORTE_DEFINICION_",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "ondemand-reports/REPORTE_DEFINICION_/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::DynamoDB::Table",
+                  "aws:cdk:cloudformation:props": {
+                    "keySchema": [
+                      {
+                        "attributeName": "customer_id",
+                        "keyType": "HASH"
+                      },
+                      {
+                        "attributeName": "report_id",
+                        "keyType": "RANGE"
+                      }
+                    ],
+                    "attributeDefinitions": [
+                      {
+                        "attributeName": "customer_id",
+                        "attributeType": "S"
+                      },
+                      {
+                        "attributeName": "report_id",
+                        "attributeType": "S"
+                      }
+                    ],
+                    "provisionedThroughput": {
+                      "readCapacityUnits": 5,
+                      "writeCapacityUnits": 5
+                    }
+                  }
+                }
+              },
+              "ScalingRole": {
+                "id": "ScalingRole",
+                "path": "ondemand-reports/REPORTE_DEFINICION_/ScalingRole"
               }
             }
           },
@@ -796,10 +1262,6 @@
                 }
               }
             }
-          },
-          "ATHENA_BUCKET_": {
-            "id": "ATHENA_BUCKET_",
-            "path": "ondemand-reports/ATHENA_BUCKET_"
           }
         }
       }
