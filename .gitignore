@@ -2,3 +2,4 @@
 .DS_Store
 *.pyc
 manifest.json
+cdk.out
