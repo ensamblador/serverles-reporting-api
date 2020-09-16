@@ -7,6 +7,6 @@ from ondemand_reports.ondemand_reports_stack import OndemandReportsStack
 
 app = core.App()
 
-OndemandReportsStack(app, "ondemand-reports", env={'region': 'us-west-1'})
+OndemandReportsStack(app, "ondemand-reports", env={'region': 'us-east-1'})
 
 app.synth()

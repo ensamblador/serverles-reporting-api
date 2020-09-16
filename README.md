@@ -1,34 +1,23 @@
 
-# Welcome to your CDK Python project!
+# Instrucciones para despliegue
 
-This is a blank project for Python development with CDK.
+### Paso 1: Clonar Repositorio
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
-
-This project is set up like a standard Python project.  The initialization
-process also creates a virtualenv within this project, stored under the .env
-directory.  To create the virtualenv it assumes that there is a `python3`
-(or `python` for Windows) executable in your path with access to the `venv`
-package. If for any reason the automatic creation of the virtualenv fails,
-you can create the virtualenv manually.
-
-To manually create a virtualenv on MacOS and Linux:
-
-```
-$ python3 -m venv .env
+```zsh 
+git clone https://github.com/ensamblador/serverles-reporting-api.git
 ```
 
-After the init process completes and the virtualenv is created, you can use the following
-step to activate your virtualenv.
+Crear y activar un ambiente python virtual
+(requiere virtualenv instalado)
+```
+cd serverles-reporting-api
+virtualenv -p python3 .env
+source .env/bin/activate
+```
+Instalar los modulos de python necesarios
 
 ```
-$ source .env/bin/activate
-```
-
-If you are a Windows platform, you would activate the virtualenv like this:
-
-```
-% .env\Scripts\activate.bat
+pip install -r requirements.txt
 ```
 
 Once the virtualenv is activated, you can install the required dependencies.
@@ -36,16 +25,29 @@ Once the virtualenv is activated, you can install the required dependencies.
 ```
 $ pip install -r requirements.txt
 ```
-
-At this point you can now synthesize the CloudFormation template for this code.
+ver listado de aplicaciones
 
 ```
-$ cdk synth
+cdk ls
 ```
 
-To add additional dependencies, for example other CDK libraries, just add
-them to your `setup.py` file and rerun the `pip install -r requirements.txt`
-command.
+*Nota: si no ha ejecutado CDK debará generar un boostrap con el comando `cdk bootstrap`*
+
+desplegar la aplicacion
+
+```
+cdk deploy
+```
+
+use `cdk deploy --profile <profile-name>` en caso de que quiera desplegar con credenciales distintas al profile por defecto.
+
+eliminar la aplicacion
+
+```
+cdk destroy
+```
+
+
 
 ## Useful commands
 

@@ -187,7 +187,7 @@
                         "ENV_SQS_QUEUE": {
                           "Ref": "reportqueuebasequeueD6F1319D"
                         },
-                        "ENV_REGION": "us-west-1"
+                        "ENV_REGION": "us-east-1"
                       }
                     },
                     "memorySize": 128,
@@ -219,21 +219,21 @@
                   }
                 }
               },
-              "02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904": {
-                "id": "02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904",
-                "path": "ondemand-reports/AssetParameters/02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904",
+              "b9e4a7b0ac0a138c4005fd2d5d439d15c4d2bf68e7434c7ec113f8e10a5c2e20": {
+                "id": "b9e4a7b0ac0a138c4005fd2d5d439d15c4d2bf68e7434c7ec113f8e10a5c2e20",
+                "path": "ondemand-reports/AssetParameters/b9e4a7b0ac0a138c4005fd2d5d439d15c4d2bf68e7434c7ec113f8e10a5c2e20",
                 "children": {
                   "S3Bucket": {
                     "id": "S3Bucket",
-                    "path": "ondemand-reports/AssetParameters/02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904/S3Bucket"
+                    "path": "ondemand-reports/AssetParameters/b9e4a7b0ac0a138c4005fd2d5d439d15c4d2bf68e7434c7ec113f8e10a5c2e20/S3Bucket"
                   },
                   "S3VersionKey": {
                     "id": "S3VersionKey",
-                    "path": "ondemand-reports/AssetParameters/02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904/S3VersionKey"
+                    "path": "ondemand-reports/AssetParameters/b9e4a7b0ac0a138c4005fd2d5d439d15c4d2bf68e7434c7ec113f8e10a5c2e20/S3VersionKey"
                   },
                   "ArtifactHash": {
                     "id": "ArtifactHash",
-                    "path": "ondemand-reports/AssetParameters/02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904/ArtifactHash"
+                    "path": "ondemand-reports/AssetParameters/b9e4a7b0ac0a138c4005fd2d5d439d15c4d2bf68e7434c7ec113f8e10a5c2e20/ArtifactHash"
                   }
                 }
               },
@@ -456,7 +456,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": {
-                        "Ref": "AssetParameters02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904S3BucketCA07E159"
+                        "Ref": "AssetParametersb9e4a7b0ac0a138c4005fd2d5d439d15c4d2bf68e7434c7ec113f8e10a5c2e20S3Bucket7AD2ED30"
                       },
                       "s3Key": {
                         "Fn::Join": [
@@ -469,7 +469,7 @@
                                   "Fn::Split": [
                                     "||",
                                     {
-                                      "Ref": "AssetParameters02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904S3VersionKeyF49C052C"
+                                      "Ref": "AssetParametersb9e4a7b0ac0a138c4005fd2d5d439d15c4d2bf68e7434c7ec113f8e10a5c2e20S3VersionKey5ABB6EB2"
                                     }
                                   ]
                                 }
@@ -482,7 +482,7 @@
                                   "Fn::Split": [
                                     "||",
                                     {
-                                      "Ref": "AssetParameters02acb790469cc2bace3e11f018bfb2d312f36107963887810a03524744344904S3VersionKeyF49C052C"
+                                      "Ref": "AssetParametersb9e4a7b0ac0a138c4005fd2d5d439d15c4d2bf68e7434c7ec113f8e10a5c2e20S3VersionKey5ABB6EB2"
                                     }
                                   ]
                                 }
@@ -503,7 +503,7 @@
                     "description": "Procesa un mensaje de la cola",
                     "environment": {
                       "variables": {
-                        "ENV_REGION": "us-west-1",
+                        "ENV_REGION": "us-east-1",
                         "ENV_ATHENA_RESULTS_BUCKET": {
                           "Ref": "ATHENABUCKETE7BA2094"
                         },
@@ -747,7 +747,7 @@
                     "description": "Monitorea la query mediante una cola",
                     "environment": {
                       "variables": {
-                        "ENV_REGION": "us-west-1"
+                        "ENV_REGION": "us-east-1"
                       }
                     },
                     "memorySize": 128,
@@ -1026,7 +1026,7 @@
                               "Ref": "APIApiGatewayWithCorsF96D4C20"
                             },
                             "deploymentId": {
-                              "Ref": "APIApiGatewayWithCorsDeployment86BD46120d96b8482fd8573b25aaf7facce4c76f"
+                              "Ref": "APIApiGatewayWithCorsDeployment86BD4612a5340f36517d39afa4373272e196f62f"
                             },
                             "stageName": "prod"
                           }
@@ -1091,7 +1091,7 @@
                                           {
                                             "Ref": "AWS::Partition"
                                           },
-                                          ":execute-api:us-west-1:",
+                                          ":execute-api:us-east-1:",
                                           {
                                             "Ref": "AWS::AccountId"
                                           },
@@ -1132,7 +1132,7 @@
                                           {
                                             "Ref": "AWS::Partition"
                                           },
-                                          ":execute-api:us-west-1:",
+                                          ":execute-api:us-east-1:",
                                           {
                                             "Ref": "AWS::AccountId"
                                           },
@@ -1171,7 +1171,7 @@
                                             {
                                               "Ref": "AWS::Partition"
                                             },
-                                            ":apigateway:us-west-1:lambda:path/2015-03-31/functions/",
+                                            ":apigateway:us-east-1:lambda:path/2015-03-31/functions/",
                                             {
                                               "Fn::GetAtt": [
                                                 "PUBLISH0E31E06E",
