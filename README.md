@@ -1,4 +1,6 @@
 
+!["diagrama"](on_demand_athena_reports.png)
+
 # Instrucciones para despliegue
 
 ### Paso 1: Clonar Repositorio

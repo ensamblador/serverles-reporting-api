@@ -69,8 +69,8 @@ def main(event, context):
         
         res_email = envia_email(
             subject="Reporte " + msg['request_time'],
-            destinatarios=["enrique.rodriguez.garrido@gmail.com"],
-            sender="reportes@chickyshop.cl",
+            destinatarios=["to email"],
+            sender="from email", # use your own SES domain
             body=body_text,
         )
 
