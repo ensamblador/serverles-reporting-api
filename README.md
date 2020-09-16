@@ -1,7 +1,14 @@
+#Intro
+
+El objetivo de este proyecto es utilizar un API request para solicitar la generación de un reporte (consulta sobre datos en S3 ya catalogados) y enviar ese resultado a un correo. 
+
+Un caso de uso puede ser la generación de reportes a solicitud, ejemplo ventas mensuales, transacciones mensuales, etc,
 
 !["diagrama"](on_demand_athena_reports.png)
 
-# Instrucciones para despliegue
+---
+
+## Instrucciones para despliegue
 
 ### Paso 1: Clonar Repositorio
 
